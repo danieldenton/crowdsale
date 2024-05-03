@@ -1,9 +1,12 @@
- const Info = ({ account }) => {
-return (
+const Info = ({ account }) => {
+  return (
     <div className="my-3">
-        <p><strong>Account: </strong>{account}</p>
+      <p>
+        <strong>Account: </strong>
+        {account}
+      </p>
     </div>
-)
-}
+  );
+};
 
-export default Info
+export default Info;
