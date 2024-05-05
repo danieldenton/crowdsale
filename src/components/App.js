@@ -13,15 +13,21 @@ import config from "../config.json";
 export default function App() {
   const [provider, setProvider] = useState(null);
   const [crowdsale, setCrowdsale] = useState(null);
+
   const [account, setAccount] = useState(null);
   const [accountBalance, setAccountBalance] = useState(0);
+
+  const [price, setPrice] = useState(0);
+  const [maxTokens, setMaxTokens] = useState(0);
+  const [tokensSold, setTokensSold] = useState(0);
+
   const [loading, setLoading] = useState(true);
 
   const loadlBockchainData = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setProvider(provider);
 
-    const { chainId } = await provider.getNetwork()
+    const { chainId } = await provider.getNetwork();
 
     const token = new ethers.Contract(
       config[chainId].token.address,
@@ -39,8 +45,18 @@ export default function App() {
     });
     const account = ethers.utils.getAddress(accounts[0]);
     setAccount(account);
-    const accountBalance = ethers.utils.formatUnits(await token.balanceOf(crowdsale.address), 18)
-    setAccountBalance(accountBalance)
+    const accountBalance = ethers.utils.formatUnits(
+      await token.balanceOf(account),
+      18
+    );
+    setAccountBalance(accountBalance);
+
+    const price = ethers.utils.formatUnits(await crowdsale.price());
+    setPrice(price);
+    const maxTokens = ethers.utils.formatUnits(await crowdsale.maxTokens());
+    setMaxTokens(maxTokens);
+    const tokenSold = ethers.utils.formatUnits(await crowdsale.tokensSold());
+    setTokensSold(tokenSold);
 
     setLoading(false);
   };
@@ -54,8 +70,14 @@ export default function App() {
   return (
     <Container>
       <Navigation />
+      <p className="text-center">
+        <strong>Current Price: </strong>
+        {price} ETH
+      </p>
       <hr />
-      {account ? <Info account={account} accountBalance={accountBalance} /> : null}
+      {account ? (
+        <Info account={account} accountBalance={accountBalance} />
+      ) : null}
     </Container>
   );
 }
