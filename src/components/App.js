@@ -6,6 +6,7 @@ import Navigation from "./Navigation";
 import Info from "./Info";
 import Loading from "./Loading";
 import Progress from "./Progress";
+import Buy from "./Buy";
 
 import TOKEN_ABI from "../abis/Token.json";
 import CROWDSALE_ABI from "../abis/Crowdsale.json";
@@ -72,6 +73,7 @@ export default function App() {
   return (
     <Container>
       <Navigation />
+      <h1 className="my-4 text-center">Introducing RUMP Token!</h1>
       {loading ? (
         <Loading />
       ) : (
@@ -80,6 +82,12 @@ export default function App() {
             <strong>Current Price: </strong>
             {price} ETH
           </p>
+          <Buy
+            provider={provider}
+            price={price}
+            crowdsale={crowdsale}
+            setLoading={setLoading}
+          />
           <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
           <hr />
 
