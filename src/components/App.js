@@ -87,6 +87,7 @@ export default function App() {
             price={price}
             crowdsale={crowdsale}
             setLoading={setLoading}
+            parseUnits={ethers.utils.parseUnits}
           />
           <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
           <hr />
