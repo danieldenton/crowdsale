@@ -14,6 +14,7 @@ export default function App() {
   const [provider, setProvider] = useState(null);
   const [crowdsale, setCrowdsale] = useState(null);
   const [account, setAccount] = useState(null);
+  const [accountBalance, setAccountBalance] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const loadlBockchainData = async () => {
@@ -38,10 +39,8 @@ export default function App() {
     });
     const account = ethers.utils.getAddress(accounts[0]);
     setAccount(account);
-    const accountBalance = await token.balanceOf(config[chainId].token.address);
-    const code = await provider.getCode(config[chainId].crowdsale.address)
-    console.log(code, chainId);
-  
+    const accountBalance = ethers.utils.formatUnits(await token.balanceOf(crowdsale.address), 18)
+    setAccountBalance(accountBalance)
 
     setLoading(false);
   };
@@ -56,7 +55,7 @@ export default function App() {
     <Container>
       <Navigation />
       <hr />
-      {account ? <Info account={account} /> : null}
+      {account ? <Info account={account} accountBalance={accountBalance} /> : null}
     </Container>
   );
 }
