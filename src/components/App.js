@@ -4,6 +4,8 @@ import * as ethers from "ethers";
 
 import Navigation from "./Navigation";
 import Info from "./Info";
+import Loading from "./Loading";
+import Progress from "./Progress";
 
 import TOKEN_ABI from "../abis/Token.json";
 import CROWDSALE_ABI from "../abis/Crowdsale.json";
@@ -70,14 +72,22 @@ export default function App() {
   return (
     <Container>
       <Navigation />
-      <p className="text-center">
-        <strong>Current Price: </strong>
-        {price} ETH
-      </p>
-      <hr />
-      {account ? (
-        <Info account={account} accountBalance={accountBalance} />
-      ) : null}
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <p className="text-center">
+            <strong>Current Price: </strong>
+            {price} ETH
+          </p>
+          <Progress maxTokens={maxTokens} tokensSold={tokensSold} />
+          <hr />
+
+          {account ? (
+            <Info account={account} accountBalance={accountBalance} />
+          ) : null}
+        </>
+      )}
     </Container>
   );
 }
