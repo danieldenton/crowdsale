@@ -64,13 +64,10 @@ contract Crowdsale {
     function checkIfAddressisInWhiteList(
         address _target
     ) public view returns (bool) {
-        if (whiteList.length > 0) {
-            for (uint256 i = 0; i < whiteList.length; i++) {
-                if (whiteList[i] == _target) {
-                    return true;
-                }
+        for (uint256 i = 0; i < whiteList.length; i++) {
+            if (whiteList[i] == _target) {
+                return true;
             }
-            return false;
         }
         return false;
     }
